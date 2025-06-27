@@ -21,5 +21,72 @@ import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
 
+@Controller
+@RequestMapping("/specialoffers")
+public class SpecialOfferController {
 
+    @Autowired
+    private SpecialOfferRepository specialOfferRepository;
+
+    @Autowired
+    private PizzaRepository pizzaRepository;
+
+    // CREATE
+    @GetMapping("/create")
+    public String create(@RequestParam("pizzaId") Integer pizzaId, Model model) {
+        Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
+
+        if (pizzaOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pizza non trovata");
+        }
+
+        Pizza pizza = pizzaOptional.get();
+
+        SpecialOffer offer = new SpecialOffer();
+        offer.setPizza(pizza);
+
+        model.addAttribute("specialOffer", offer);
+        return "specialoffers/create";
+    }
+
+    // STORE
+    @PostMapping("/store")
+    public String store(@Valid @ModelAttribute("specialOffer") SpecialOffer offer, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "specialoffers/create";
+        }
+
+        specialOfferRepository.save(offer);
+        return "redirect:/pizzas/" + offer.getPizza().getId();
+    }
+
+    // EDIT
+   @GetMapping("/{id}/edit")
+public String edit(@PathVariable Integer id, Model model) {
+    Optional<SpecialOffer> optionalOffer = specialOfferRepository.findById(id);
+
+    if (optionalOffer.isEmpty()) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Offerta non trovata");
+    }
+
+    SpecialOffer offer = optionalOffer.get();
+    model.addAttribute("specialOffer", offer);
+    return "specialoffers/edit";
+}
+
+
+    // UPDATE
+    @PostMapping("/{id}/update")
+    public String update(@PathVariable Integer id,
+            @Valid @ModelAttribute("specialOffer") SpecialOffer offer,
+            BindingResult bindingResult,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "specialoffers/edit";
+        }
+
+        specialOfferRepository.save(offer);
+        return "redirect:/pizzas/" + offer.getPizza().getId();
+    }
 }

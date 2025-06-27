@@ -38,6 +38,7 @@ public class SpecialOffer {
     @JoinColumn(name="pizza_id",nullable = false)
     private Pizza pizza;
 
+
     public Integer getId() {
         return this.id;
     }
@@ -77,6 +78,8 @@ public class SpecialOffer {
     public void setPizza(Pizza pizza) {
         this.pizza = pizza;
     }
-    
+   
+  
+  
      
 }

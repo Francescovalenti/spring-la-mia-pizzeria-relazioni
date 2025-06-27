@@ -30,16 +30,16 @@
                 </div>
             </div>
 
-        <div class="mb-3">
-            <label for="description" class="form-label">Descrizione:</label>
-            <textarea id="description" th:field="*{description}" class="form-control"   th:errorClass="is-invalid" rows="3"></textarea>
-            <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
-                <ul>
-                    <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
-                </ul>
+            <div class="mb-3">
+                <label for="description" class="form-label">Descrizione:</label>
+                <textarea id="description" th:field="*{description}" class="form-control"   th:errorClass="is-invalid" rows="3"></textarea>
+                <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                    </ul>
 
+                </div>
             </div>
-        </div>
 
             <div class="mb-3">
                 <label for="pic" class="form-label">Immagine: </label>
