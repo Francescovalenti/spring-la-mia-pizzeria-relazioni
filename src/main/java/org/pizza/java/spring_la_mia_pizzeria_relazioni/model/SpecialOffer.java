@@ -37,6 +37,46 @@ public class SpecialOffer {
     @ManyToOne
     @JoinColumn(name="pizza_id",nullable = false)
     private Pizza pizza;
+
+    public Integer getId() {
+        return this.id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public LocalDate getStartDate() {
+        return this.startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEnDate() {
+        return this.enDate;
+    }
+
+    public void setEnDate(LocalDate enDate) {
+        this.enDate = enDate;
+    }
+
+    public String getTitle() {
+        return this.Title;
+    }
+
+    public void setTitle(String Title) {
+        this.Title = Title;
+    }
+
+    public Pizza getPizza() {
+        return this.pizza;
+    }
+
+    public void setPizza(Pizza pizza) {
+        this.pizza = pizza;
+    }
     
      
 }
