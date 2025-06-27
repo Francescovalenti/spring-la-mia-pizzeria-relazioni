@@ -1,6 +1,5 @@
 package org.pizza.java.spring_la_mia_pizzeria_relazioni.controller;
 
-
 import org.pizza.java.spring_la_mia_pizzeria_relazioni.model.Pizza;
 import org.pizza.java.spring_la_mia_pizzeria_relazioni.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
-
 @Controller
 @RequestMapping("/pizzas")
 public class PizzaController {
@@ -30,9 +28,18 @@ public class PizzaController {
     @Autowired
     private PizzaRepository pizzaRepository;
 
-    @GetMapping("/{id}") //
+    @GetMapping("/{id}")
+
     public String show(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("pizza", pizzaRepository.findById(id).get());
+        Optional<Pizza> pizzaOptional = pizzaRepository.findById(id);
+        if (pizzaOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pizza non trovata");
+        }
+
+        Pizza pizza = pizzaOptional.get();
+        model.addAttribute("pizza", pizza);
+        model.addAttribute("offers", pizza.getSpecialOffers());
+
         return "pizzas/show";
     }
 
@@ -96,17 +103,5 @@ public class PizzaController {
         return "redirect:/pizzas";
     }
 
-    @GetMapping("/Specialoffer/{id}")
-    public String SpecialOffer(@PathVariable("id") Integer id, Model model) {
-        Optional<Pizza> pizzaOptional = pizzaRepository.findById(id);
-        if (pizzaOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "There is no book with id " + id + ", so you cannot borrow it!");
-        }
-        Pizza pizza = pizzaOptional.get();
 
-        model.addAttribute("pizza", pizza);
-        model.addAttribute("offers", pizza.getSpecialOffers());
-        return "pizzas/show";
-    }
 }

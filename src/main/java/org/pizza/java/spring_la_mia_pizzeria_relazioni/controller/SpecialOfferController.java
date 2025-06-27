@@ -31,7 +31,6 @@ public class SpecialOfferController {
     @Autowired
     private PizzaRepository pizzaRepository;
 
-   
     @GetMapping("/create")
     public String create(@RequestParam("pizzaId") Integer pizzaId, Model model) {
         Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
@@ -49,38 +48,61 @@ public class SpecialOfferController {
         return "specialoffers/create";
     }
 
+   @PostMapping("/store")
+public String store(
+        @Valid @ModelAttribute("specialOffer") SpecialOffer offer,
+        BindingResult bindingResult,
+        Model model
+) {
    
-    @PostMapping("/store")
-    public String store(@Valid @ModelAttribute("specialOffer") SpecialOffer offer, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "specialoffers";
-        }
-
-        specialOfferRepository.save(offer);
-        return "redirect:/pizzas/" + offer.getPizza().getId();
+    if (offer.getPizza() == null || offer.getPizza().getId() == null) {
+        bindingResult.reject("pizza", "Pizza mancante. Ricarica la pagina.");
+        return "specialoffers/create";
     }
 
-  
-   @GetMapping("/{id}/edit")
-public String edit(@PathVariable Integer id, Model model) {
-    Optional<SpecialOffer> optionalOffer = specialOfferRepository.findById(id);
+   
+    Pizza pizza = pizzaRepository.findById(offer.getPizza().getId()).orElse(null);
+    if (pizza == null) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pizza non trovata");
+    }
+    offer.setPizza(pizza); 
 
-    if (optionalOffer.isEmpty()) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Offerta non trovata");
+    
+    if (offer.getEnDate().isBefore(offer.getStartDate())) {
+        bindingResult.rejectValue("enDate", "invalidDate", "La data di fine non può essere prima della data di inizio.");
     }
 
-    SpecialOffer offer = optionalOffer.get();
-    model.addAttribute("specialOffer", offer);
-    return "specialoffers/edit";
+    if (bindingResult.hasErrors()) {
+        return "specialoffers/create";
+    }
+
+    specialOfferRepository.save(offer);
+    return "redirect:/pizzas/" + pizza.getId();
 }
 
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable Integer id, Model model) {
+        Optional<SpecialOffer> optionalOffer = specialOfferRepository.findById(id);
 
-  
+        if (optionalOffer.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Offerta non trovata");
+        }
+
+        SpecialOffer offer = optionalOffer.get();
+        model.addAttribute("specialOffer", offer);
+        return "specialoffers/edit";
+    }
+
     @PostMapping("/{id}/update")
     public String update(@PathVariable Integer id,
             @Valid @ModelAttribute("specialOffer") SpecialOffer offer,
             BindingResult bindingResult,
             Model model) {
+
+        if (offer.getEnDate().isBefore(offer.getStartDate())) {
+            bindingResult.rejectValue("enDate", "invalidDate",
+                    "La data di fine non può essere prima della data di inizio.");
+        }
 
         if (bindingResult.hasErrors()) {
             return "specialoffers/edit";
@@ -89,4 +111,18 @@ public String edit(@PathVariable Integer id, Model model) {
         specialOfferRepository.save(offer);
         return "redirect:/pizzas/" + offer.getPizza().getId();
     }
+
+    @PostMapping("/{id}/delete")
+public String delete(@PathVariable Integer id) {
+    Optional<SpecialOffer> offerOpt = specialOfferRepository.findById(id);
+
+    if (offerOpt.isEmpty()) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Offerta non trovata");
+    }
+
+    Integer pizzaId = offerOpt.get().getPizza().getId(); // recupera ID della pizza prima di cancellare
+    specialOfferRepository.deleteById(id);
+    return "redirect:/pizzas/" + pizzaId;
+}
+
 }

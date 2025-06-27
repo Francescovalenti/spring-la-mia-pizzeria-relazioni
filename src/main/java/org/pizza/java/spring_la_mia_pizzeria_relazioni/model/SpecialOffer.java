@@ -14,7 +14,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
-@Table(name= "offerte speciali")
+@Table(name= "specialoffers")
 public class SpecialOffer {
 
     @Id
@@ -22,11 +22,11 @@ public class SpecialOffer {
     private Integer id;
    
     @NotNull(message="Inserisci un titolo")
-    @PastOrPresent(message="Non puoi mettere una data del futuro")
+   
      private LocalDate startDate;
 
     @NotNull(message = "Inserisci una data")
-    @PastOrPresent(message="non puoi mettere una data del passato rispetto all'inizio della offerta")
+   
     private LocalDate  enDate;
 
     @NotBlank(message = "Inserisci un titolo")

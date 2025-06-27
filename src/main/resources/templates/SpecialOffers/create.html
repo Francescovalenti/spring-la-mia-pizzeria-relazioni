@@ -12,6 +12,7 @@
     <h1 class="mb-4">Crea una Nuova Offerta Speciale</h1>
 
     <form th:action="@{/specialoffers/store}" th:object="${specialOffer}" method="post">
+          <input type="hidden" th:field="*{pizza.id}" />
         <div class="mb-3">
             <label for="title" class="form-label">Titolo</label>
             <input id="title" type="text" class="form-control" th:field="*{title}" th:errorClass="is-invalid">
