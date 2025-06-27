@@ -1,4 +1,4 @@
-package org.pizza.java.spring_la_mia_pizzeria_crud.model;
+package org.pizza.java.spring_la_mia_pizzeria_relazioni.model;
 
 import java.math.BigDecimal;
 
