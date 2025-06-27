@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Pizza: ' + ${pizza.name}">Dettagli Pizza</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.6/css/bootstrap.min.css}" />
+     <link rel="stylesheet" th:href="@{/css/style.css}">
+    
+
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <a th:href="@{/pizzas}" class="btn btn-secondary mb-3">&larr; Torna all'elenco</a>
+
+        <div class="card shadow">
+            <div class="card-header bg-warning text-center">
+                <h2 th:text="${pizza.name}">Nome Pizza</h2>
+            </div>
+            <div class="card-body text-center">
+                <img th:src="${pizza.pic}"  class="img-fluid rounded mb-3 " style="max-width: 300px;">
+                <p th:text="${pizza.description}" class="lead"></p>
+                <h4 th:text="${#numbers.formatCurrency(pizza.price)}" class="text-success"></h4>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
