@@ -87,7 +87,7 @@ public class Pizza {
         return this.SpecialOffers;
     }
 
-    public void setSpecialOffer(List<SpecialOffer> SpecialOffer){
+    public void setSpecialOffer(List<SpecialOffer> SpecialOffers){
         this.SpecialOffers=SpecialOffers;
     }
 }

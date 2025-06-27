@@ -31,7 +31,7 @@ public class SpecialOfferController {
     @Autowired
     private PizzaRepository pizzaRepository;
 
-    // CREATE
+   
     @GetMapping("/create")
     public String create(@RequestParam("pizzaId") Integer pizzaId, Model model) {
         Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
@@ -49,18 +49,18 @@ public class SpecialOfferController {
         return "specialoffers/create";
     }
 
-    // STORE
+   
     @PostMapping("/store")
     public String store(@Valid @ModelAttribute("specialOffer") SpecialOffer offer, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "specialoffers/create";
+            return "specialoffers";
         }
 
         specialOfferRepository.save(offer);
         return "redirect:/pizzas/" + offer.getPizza().getId();
     }
 
-    // EDIT
+  
    @GetMapping("/{id}/edit")
 public String edit(@PathVariable Integer id, Model model) {
     Optional<SpecialOffer> optionalOffer = specialOfferRepository.findById(id);
@@ -75,7 +75,7 @@ public String edit(@PathVariable Integer id, Model model) {
 }
 
 
-    // UPDATE
+  
     @PostMapping("/{id}/update")
     public String update(@PathVariable Integer id,
             @Valid @ModelAttribute("specialOffer") SpecialOffer offer,

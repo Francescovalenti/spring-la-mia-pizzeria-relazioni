@@ -2,7 +2,6 @@ package org.pizza.java.spring_la_mia_pizzeria_relazioni.model;
 
 import java.time.LocalDate;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +31,7 @@ public class SpecialOffer {
 
     @NotBlank(message = "Inserisci un titolo")
     @NotNull
-    private String Title;
+    private String title;
     
     @ManyToOne
     @JoinColumn(name="pizza_id",nullable = false)
@@ -64,11 +63,11 @@ public class SpecialOffer {
     }
 
     public String getTitle() {
-        return this.Title;
+        return this.title;
     }
 
     public void setTitle(String Title) {
-        this.Title = Title;
+        this.title = Title;
     }
 
     public Pizza getPizza() {
