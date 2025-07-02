@@ -8,6 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
@@ -38,8 +41,15 @@ public class Pizza {
     @DecimalMin(value = "0.01", message = "Il prezzo deve essere maggiore di zero")
     @Column(name = "prezzo")
 
-    @OneToMany (mappedBy = "pizza")
-    private List <SpecialOffer> SpecialOffers;
+    @OneToMany(mappedBy = "pizza")
+    private List<SpecialOffer> SpecialOffers;
+
+    @ManyToMany
+    @JoinTable(
+        name="pizza_ingredients",
+        joinColumns = @JoinColumn(name = "pizza_id"),
+        inverseJoinColumns = @JoinColumn(name = "ingredients_id")
+    )
     
     private BigDecimal price;
 
@@ -83,11 +93,11 @@ public class Pizza {
         this.price = price;
     }
 
-    public List<SpecialOffer> getSpecialOffers(){
+    public List<SpecialOffer> getSpecialOffers() {
         return this.SpecialOffers;
     }
 
-    public void setSpecialOffer(List<SpecialOffer> SpecialOffers){
-        this.SpecialOffers=SpecialOffers;
+    public void setSpecialOffer(List<SpecialOffer> SpecialOffers) {
+        this.SpecialOffers = SpecialOffers;
     }
 }
