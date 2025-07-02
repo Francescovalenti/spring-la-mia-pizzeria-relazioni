@@ -40,6 +40,7 @@ public class Pizza {
     @NotNull(message = "Il prezzo è obbligatorio")
     @DecimalMin(value = "0.01", message = "Il prezzo deve essere maggiore di zero")
     @Column(name = "prezzo")
+    private BigDecimal price;
 
     @OneToMany(mappedBy = "pizza")
     private List<SpecialOffer> SpecialOffers;
@@ -50,8 +51,9 @@ public class Pizza {
         joinColumns = @JoinColumn(name = "pizza_id"),
         inverseJoinColumns = @JoinColumn(name = "ingredients_id")
     )
+    private List<Ingredient> ingredients;
     
-    private BigDecimal price;
+  
 
     public Integer getId() {
         return this.id;
@@ -100,4 +102,15 @@ public class Pizza {
     public void setSpecialOffer(List<SpecialOffer> SpecialOffers) {
         this.SpecialOffers = SpecialOffers;
     }
+
+
+
+    public List<Ingredient> getIngredients() {
+        return this.ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
 }
