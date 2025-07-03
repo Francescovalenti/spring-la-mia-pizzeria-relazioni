@@ -2,6 +2,7 @@ package org.pizza.java.spring_la_mia_pizzeria_relazioni.model;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -51,7 +52,7 @@ public class Pizza {
         joinColumns = @JoinColumn(name = "pizza_id"),
         inverseJoinColumns = @JoinColumn(name = "ingredients_id")
     )
-    private List<Ingredient> ingredients;
+    private Set<Ingredient> ingredients;
     
   
 
@@ -105,11 +106,11 @@ public class Pizza {
 
 
 
-    public List<Ingredient> getIngredients() {
+    public Set<Ingredient> getIngredients() {
         return this.ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 

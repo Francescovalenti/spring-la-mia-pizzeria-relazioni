@@ -1,6 +1,7 @@
 package org.pizza.java.spring_la_mia_pizzeria_relazioni.model;
 
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +25,7 @@ public class Ingredient {
     private String name;
 
     @ManyToMany(mappedBy = "ingredients")
-    private List<Pizza> pizzas;
+    private Set<Pizza> pizzas;
 
     
     public Integer getId() {
@@ -43,11 +44,11 @@ public class Ingredient {
         this.name = name;
     }
 
-    public List<Pizza> getPizzas() {
+    public Set<Pizza> getPizzas() {
         return this.pizzas;
     }
 
-    public void setPizzas(List<Pizza> pizzas) {
+    public void setPizzas(Set<Pizza> pizzas) {
         this.pizzas = pizzas;
     }
 
